@@ -12,8 +12,8 @@ defmodule RotationalCipher do
   def rotate(text, shift) do
     to_charlist(text)
     |> map(fn
-      x when (x <= ?Z and x >= ?A) -> ?A + mod(x + shift - ?A, 26)
-      x when (x <= ?z and x >= ?a) -> ?a + mod(x + shift - ?a, 26)
+      x when (x in ?A..?Z) -> ?A + mod(x + shift - ?A, 26)
+      x when (x in ?a..?z) -> ?a + mod(x + shift - ?a, 26)
       x -> x
     end)
     |> to_string
