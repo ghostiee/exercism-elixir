@@ -7,13 +7,12 @@ defmodule RotationalCipher do
   "Nggnpx ng qnja"
   """
   import Enum, only: [map: 2]
-  import Integer, only: [mod: 2]
   @spec rotate(text :: String.t(), shift :: integer) :: String.t()
   def rotate(text, shift) do
     to_charlist(text)
     |> map(fn
-      x when (x in ?A..?Z) -> ?A + mod(x + shift - ?A, 26)
-      x when (x in ?a..?z) -> ?a + mod(x + shift - ?a, 26)
+      x when (x in ?A..?Z) -> ?A + rem(x + shift - ?A, 26)
+      x when (x in ?a..?z) -> ?a + rem(x + shift - ?a, 26)
       x -> x
     end)
     |> to_string
