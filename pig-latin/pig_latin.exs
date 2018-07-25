@@ -20,17 +20,10 @@ defmodule PigLatin do
     |> Enum.join(" ")
   end
 
-  def do_translate(<<"x", alphabet::binary-size(1), rest::binary>>) do
+  def do_translate(<<i, alphabet::binary-size(1), rest::binary>>) when i in 'xy' do
     case is_vowel(alphabet) do
-      true -> "#{alphabet}#{rest}xay"
-      false -> "x#{alphabet}#{rest}ay"
-    end
-  end
-
-  def do_translate(<<"y", alphabet::binary-size(1), rest::binary>>) do
-    case is_vowel(alphabet) do
-      true -> "#{alphabet}#{rest}yay"
-      false -> "y#{alphabet}#{rest}ay"
+      true -> "#{alphabet}#{rest}#{<<i::utf8>>}ay"
+      false -> "#{<<i::utf8>>}#{alphabet}#{rest}ay"
     end
   end
 
