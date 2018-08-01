@@ -1,6 +1,6 @@
 defmodule TwelveDays do
 
-  @numbers [
+  @ordinals [
     "first",
     "second",
     "third",
@@ -15,7 +15,7 @@ defmodule TwelveDays do
     "twelfth"
   ]
 
-  @things [
+  @gifs [
     "and a Partridge",
     "two Turtle Doves",
     "three French Hens",
@@ -30,11 +30,11 @@ defmodule TwelveDays do
     "twelve Drummers Drumming",
   ]
 
-  @spec get_things(number :: integer) :: String.t()
-  defp get_things(number) do
+  @spec get_gifs(number :: integer) :: String.t()
+  defp get_gifs(number) do
     case number do
       1 -> "a Partridge"
-      _ -> Enum.take(@things, number)
+      _ -> Enum.take(@gifs, number)
           |> Enum.reverse
           |> Enum.join(", ")
     end
@@ -46,7 +46,9 @@ defmodule TwelveDays do
   """
   @spec verse(number :: integer) :: String.t()
   def verse(number) do
-    "On the #{Enum.fetch!(@numbers, number - 1)} day of Christmas my true love gave to me, #{get_things(number)} in a Pear Tree."
+    ord = Enum.at(@ordinals, number - 1)
+    gif = get_gifs(number)
+    "On the #{ord} day of Christmas my true love gave to me, #{gif} in a Pear Tree."
   end
 
   @doc """
