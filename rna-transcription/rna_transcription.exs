@@ -9,12 +9,12 @@ defmodule RNATranscription do
   """
   @spec to_rna([char]) :: [char]
   def to_rna(dna) do
-    case to_string(dna) do
-     "A" -> 'U'
-     "C" -> 'G'
-     "T" -> 'A'
-     "G" -> 'C'
-      _ -> Enum.reduce(dna, '', fn (r, acc) -> acc ++ to_rna(<<r::utf8>>) end)
+    case dna do
+     'A' -> 'U'
+     'C' -> 'G'
+     'T' -> 'A'
+     'G' -> 'C'
+      _ -> Enum.reduce(dna, '', fn (r, acc) -> acc ++ to_rna([r]) end)
     end
   end
 end
