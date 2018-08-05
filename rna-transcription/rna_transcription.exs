@@ -14,7 +14,9 @@ defmodule RNATranscription do
      'C' -> 'G'
      'T' -> 'A'
      'G' -> 'C'
-      _ -> Enum.reduce(dna, '', fn (r, acc) -> acc ++ to_rna([r]) end)
+      _ -> Enum.reduce(dna, '', fn (r, acc) ->
+        acc ++ to_rna([r])
+      end)
     end
   end
 end
