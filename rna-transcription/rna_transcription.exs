@@ -7,16 +7,16 @@ defmodule RNATranscription do
   iex> RNATranscription.to_rna('ACTG')
   'UGAC'
   """
+
+  @dna_to_rna_map %{
+    ?A => ?U,
+    ?C => ?G,
+    ?T => ?A,
+    ?G => ?C
+  }
+
   @spec to_rna([char]) :: [char]
   def to_rna(dna) do
-    case dna do
-     'A' -> 'U'
-     'C' -> 'G'
-     'T' -> 'A'
-     'G' -> 'C'
-      _ -> Enum.reduce(dna, '', fn (r, acc) ->
-        acc ++ to_rna([r])
-      end)
-    end
+    Enum.map(dna, &@dna_to_rna_map[&1])
   end
 end
