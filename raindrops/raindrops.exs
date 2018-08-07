@@ -13,7 +13,7 @@ defmodule Raindrops do
     [3, 5, 7]
     |> Enum.map(&check_prime_factor(number, &1))
     |> Enum.join
-    |> (&(case bit_size(&1) === 0 do
+    |> (&(case &1 === "" do
           true -> "#{number}"
           false -> &1
         end)).()
