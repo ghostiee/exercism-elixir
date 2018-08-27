@@ -13,15 +13,15 @@ defmodule Roman do
   end
 
   defp thousand(number) do
-    convert(trunc(number / 1000), "M") <> hundred(rem(number, 1000))
+    convert(div(number, 1000), "M") <> hundred(rem(number, 1000))
   end
 
   defp hundred(number) do
-    convert(trunc(number/ 100), "C", "D", "M") <> ten(rem(number, 100))
+    convert(div(number, 100), "C", "D", "M") <> ten(rem(number, 100))
   end
 
   defp ten(number) do
-    convert(trunc(number / 10), "X", "L", "C") <> digit(rem(number, 10))
+    convert(div(number, 10), "X", "L", "C") <> digit(rem(number, 10))
   end
 
   defp digit(number) do
@@ -34,10 +34,10 @@ defmodule Roman do
 
   defp convert(number, one, five, ten) do
     cond do
-      number <= 3 -> String.duplicate(one, number)
+      number <= 3 -> convert(number, one)
       number === 4 -> one <> five
       number === 5 -> five
-      number < 9 -> five <> String.duplicate(one, number - 5)
+      number < 9 -> five <> convert(number - 5, one)
       number === 9 -> one <> ten
     end
   end
