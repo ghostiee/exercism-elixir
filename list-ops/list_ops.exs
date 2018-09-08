@@ -8,7 +8,7 @@ defmodule ListOps do
 
   @spec count(list) :: non_neg_integer
   def count(l) do
-    List.foldl(l, 0, fn (_, acc) -> acc + 1 end)
+    reduce(l, 0, fn (_, acc) -> acc + 1 end)
   end
 
   @spec reverse(list) :: list
