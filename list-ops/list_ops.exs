@@ -32,7 +32,7 @@ defmodule ListOps do
   end
 
   @spec map(list, (any -> any)) :: list
-  def map([], f) do
+  def map([], _) do
     []
   end
 
