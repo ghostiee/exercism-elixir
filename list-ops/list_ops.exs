@@ -12,41 +12,24 @@ defmodule ListOps do
   end
 
   @spec reverse(list) :: list
-  def reverse([]) do
-    []
-  end
-
-  @spec reverse(list) :: list
+  def reverse([]) do [] end
   def reverse([s | t]) do
-    reverse(t, [s])
+    do_reverse(t, [s])
   end
-
-  @spec reverse(list, list) :: list
-  def reverse([s | t], acc) do
-   reverse(t, [s | acc]) 
-  end
-
-  @spec reverse(list, list) :: list
-  def reverse([], acc) do
-    acc
+  @spec do_reverse(list, list) :: list
+  defp do_reverse([], acc) do acc end
+  defp do_reverse([s | t], acc) do
+   do_reverse(t, [s | acc])
   end
 
   @spec map(list, (any -> any)) :: list
-  def map([], _) do
-    []
-  end
-
-  @spec map(list, (any -> any)) :: list
+  def map([], _) do [] end
   def map([s | t], f) do
     [f.(s) | map(t, f)] 
   end
 
   @spec filter(list, (any -> as_boolean(term))) :: list
-  def filter([], _) do
-    []
-  end
-
-  @spec filter(list, (any -> as_boolean(term))) :: list
+  def filter([], _) do [] end
   def filter([s | t], f) do
     case f.(s) do
       false -> filter(t, f)
@@ -56,31 +39,19 @@ defmodule ListOps do
 
   @type acc :: any
   @spec reduce(list, acc, (any, acc -> acc)) :: acc
+  def reduce([], acc, _) do acc end
   def reduce([s | t], acc, f) do
     reduce(t, f.(s, acc), f)
   end
-  
-  @spec reduce(list, acc, (any, acc -> acc)) :: acc
-  def reduce([], acc, _) do
-    acc
-  end
 
   @spec append(list, list) :: list
-  def append([], b) do
-    b
-  end
-  
-  @spec append(list, list) :: list
+  def append([], b) do b end
   def append([s | t], b) do
     [s | append(t, b)]
   end
 
   @spec concat([[any]]) :: [any]
-  def concat([]) do
-    []
-  end
-
-  @spec concat([[any]]) :: [any]
+  def concat([]) do [] end
   def concat([s | t]) do
     append(s, concat(t))
   end
