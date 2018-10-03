@@ -1,5 +1,5 @@
 defmodule RobotSimulator do
-  use Agent
+  defstruct direction: :north, position: {0,0}
 
   @doc """
   Create a Robot Simulator given an initial direction and position.
@@ -18,8 +18,7 @@ defmodule RobotSimulator do
     {:error, "invalid position"}
   end
   def create(direction, position) do
-    {:ok, robot} = Agent.start_link(fn -> %{direction: direction, position: position} end)
-    robot
+    %RobotSimulator{direction: direction, position: position}
   end
 
   @doc """
@@ -42,28 +41,26 @@ defmodule RobotSimulator do
   end
 
   defp move_position(robot) do
-    Agent.update(robot, fn %{:direction => direction, :position => {x,y}} -> 
+    %{direction: direction} = robot
+    Map.update!(robot, :position, fn {x,y} ->
       case direction do
         :north -> {x, y + 1} 
         :south -> {x, y - 1}
         :east -> {x + 1, y}
         :west -> {x - 1, y}
       end
-      |> (&(%{direction: direction, position: &1})).()
     end)
-    robot
   end
+
   @clockwise [north: :east, east: :south, south: :west, west: :north]
   @anticlockwise [north: :west, east: :north, south: :east, west: :south]
   defp turn_direction(robot, direction_action) do
-    Agent.update(robot, fn %{:direction => direction, :position => position} -> 
+    Map.update!(robot, :direction, fn direction -> 
       case direction_action do
         "R" -> Keyword.get(@clockwise, direction)
         "L" -> Keyword.get(@anticlockwise, direction)
       end
-      |> (&(%{direction: &1, position: position})).()
     end)
-    robot
   end
 
   @doc """
@@ -72,15 +69,11 @@ defmodule RobotSimulator do
   Valid directions are: `:north`, `:east`, `:south`, `:west`
   """
   @spec direction(robot :: any) :: atom
-  def direction(robot) do
-    Agent.get(robot, &Map.get(&1, :direction))
-  end
+  def direction(robot), do: Map.get(robot, :direction)
 
   @doc """
   Return the robot's position.
   """
   @spec position(robot :: any) :: {integer, integer}
-  def position(robot) do
-    Agent.get(robot, &Map.get(&1, :position))
-  end
+  def position(robot), do: Map.get(robot, :position)
 end
